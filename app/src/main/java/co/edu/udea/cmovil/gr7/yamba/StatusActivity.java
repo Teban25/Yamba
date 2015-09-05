@@ -22,7 +22,7 @@ import com.marakana.android.yamba.clientlib.YambaClientException;
 
 public class StatusActivity extends Activity implements OnClickListener {
     private static final String TAG="StatusActivity";
-    private EditText editStatus;
+    private EditText editTextStatus;
     private Button buttonTweet;
     private TextView textCount;
     private int defaultTextColor;
@@ -32,14 +32,14 @@ public class StatusActivity extends Activity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status);
 
-        editStatus=(EditText)findViewById(R.id.editStatus);
+        editTextStatus=(EditText)findViewById(R.id.editStatus);
         buttonTweet=(Button)findViewById(R.id.buttonTweet);
         textCount=(TextView) findViewById(R.id.textCount);
 
         buttonTweet.setOnClickListener(this);
 
         defaultTextColor=textCount.getTextColors().getDefaultColor();
-        editStatus.addTextChangedListener(new TextWatcher() {
+        editTextStatus.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -52,7 +52,7 @@ public class StatusActivity extends Activity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                int count=140-editStatus.length();
+                int count=140-editTextStatus.length();
                 textCount.setText(Integer.toString(count));
                 textCount.setTextColor(Color.GREEN);
                 if(count < 18)
@@ -65,7 +65,7 @@ public class StatusActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view){
-        String status=editStatus.getText().toString();
+        String status=editTextStatus.getText().toString();
         Log.d(TAG,"onClicked with status: "+status);
         new PostTask();
     }
