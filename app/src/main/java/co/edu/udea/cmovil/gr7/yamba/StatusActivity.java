@@ -66,7 +66,7 @@ public class StatusActivity extends Activity implements OnClickListener {
     public void onClick(View view){
         String status=editTextStatus.getText().toString();
         Log.d(TAG,"onClicked with status: "+status);
-        new PostTask();
+        new PostTask().execute(status);
     }
 
     private final class PostTask extends AsyncTask<String, Void, String>{
