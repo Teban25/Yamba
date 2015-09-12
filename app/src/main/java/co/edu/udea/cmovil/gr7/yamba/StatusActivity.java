@@ -16,9 +16,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.thenewcircle.yamba.client.YambaClient;
+import com.thenewcircle.yamba.client.YambaClientException;
 
-import com.marakana.android.yamba.clientlib.YambaClient;
-import com.marakana.android.yamba.clientlib.YambaClientException;
 
 public class StatusActivity extends Activity implements OnClickListener {
     private static final String TAG="StatusActivity";
@@ -66,7 +66,7 @@ public class StatusActivity extends Activity implements OnClickListener {
     public void onClick(View view){
         String status=editTextStatus.getText().toString();
         Log.d(TAG,"onClicked with status: "+status);
-        new PostTask();
+        new PostTask().execute(status);
     }
 
     private final class PostTask extends AsyncTask<String, Void, String>{
