@@ -1,1 +1,2 @@
-include ':app'
+include ':app', ':app1'
+project(':app1').projectDir = new File('Yamba 1/app')

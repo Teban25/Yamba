@@ -1,6 +1,7 @@
 package co.edu.udea.cmovil.gr7.yamba;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,7 +37,7 @@ public class StatusActivity extends Activity implements OnClickListener {
         editTextStatus=(EditText)findViewById(R.id.editStatus);
         buttonTweet=(Button)findViewById(R.id.buttonTweet);
         textCount=(TextView) findViewById(R.id.textCount);
-
+        buttonTweet.setEnabled(false);
         buttonTweet.setOnClickListener(this);
 
         defaultTextColor=textCount.getTextColors().getDefaultColor();
@@ -51,6 +53,12 @@ public class StatusActivity extends Activity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
+                //Deshabilito el boton cuando esta 0 supera los 140
+                if(editTextStatus.length()==0 || editTextStatus.length()>140){
+                    buttonTweet.setEnabled(false);
+                }else{
+                    buttonTweet.setEnabled(true);
+                }
                 int count=140-editTextStatus.length();
                 textCount.setText(Integer.toString(count));
                 textCount.setTextColor(Color.GREEN);
@@ -64,9 +72,14 @@ public class StatusActivity extends Activity implements OnClickListener {
 
     @Override
     public void onClick(View view){
+        //Oculto el teclado cuando se da click al boton
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editTextStatus.getWindowToken(), 0);
         String status=editTextStatus.getText().toString();
         Log.d(TAG,"onClicked with status: "+status);
         new PostTask().execute(status);
+        //Limpio el campo cuando se envia.
+        editTextStatus.setText("");
     }
 
     private final class PostTask extends AsyncTask<String, Void, String>{
